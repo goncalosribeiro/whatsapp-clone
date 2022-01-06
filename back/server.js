@@ -29,7 +29,6 @@ app.use(routes);
 app.use(cors()); //allow all origins
 
 io.on('connection', (socket) => {
-  console.log('1 ', socket.id);
   socket.on('join', ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
     if (error) return callback(error);
@@ -49,9 +48,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('sendMessage', (message, callback) => {
-    console.log('2 ', socket.id);
     const user = getUser(socket.id);
-    console.log('user', user);
     io.to(user.room).emit('message', { user: user.name, text: message });
     callback();
   });

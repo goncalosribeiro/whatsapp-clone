@@ -10,15 +10,14 @@ import {
   Search,
   Send,
 } from '@mui/icons-material';
-import queryString from 'query-string';
+import ScrollToBottom from 'react-scroll-to-bottom'
 import io from 'socket.io-client';
 import { useSearchParams } from 'react-router-dom';
-import { nanoid } from 'nanoid';
+
 
 let socket;
 
 const Chat = ({ location }) => {
-  const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
   const [users, setUsers] = useState('');
@@ -29,10 +28,8 @@ const Chat = ({ location }) => {
 
   useEffect(() => {
     socket = io(ENDPOINT);
-    // const id = nanoid();
     const name = searchParams.get('name');
     const room = searchParams.get('room');
-    // setId(id);
     setName(name);
     setRoom(room);
 
@@ -63,7 +60,7 @@ const Chat = ({ location }) => {
       });
     }
   };
-
+  const trimmedName = name.trim().toLowerCase();
   return (
     <div className="chat">
       <div className="chat__header">
@@ -84,12 +81,13 @@ const Chat = ({ location }) => {
           </IconButton>
         </div>
       </div>
-      <div className="chat__body">
+      <ScrollToBottom>
+        <div className="chat__body">
         {messages &&
           messages.map((val, i) => {
             return (
-              <p key={i} className="chat__message">
-                <span className="chat__name">{val.user}</span>
+              <p key={i} className={trimmedName===val.user? "chat__message chat__sender" : "chat__message"}>
+                {trimmedName===val.user? null : <span className="chat__name">{val.user}</span>}
                 {val.text}
                 <span className="chat__timestamp">
                   {new Date().toUTCString()}
@@ -98,6 +96,7 @@ const Chat = ({ location }) => {
             );
           })}
       </div>
+      </ScrollToBottom>
       <div className="chat__footer">
         <InsertEmoticon />
         <form>
