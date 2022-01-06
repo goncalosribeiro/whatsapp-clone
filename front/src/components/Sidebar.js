@@ -22,13 +22,14 @@ const Sidebar = () => {
           </IconButton>
         </div>
       </div>
-      <div className="sidebar__search">
+      {/* <div className="sidebar__search">
         <div className="sidebar__searchContainer">
           <Search />
           <input type="text" placeholder="Search or start new chat" />
         </div>
-      </div>
+      </div> */}
       <div className="sidebar__chat">
+        <h3>Users in room</h3>
         <SidebarChat />
         <SidebarChat />
         <SidebarChat />

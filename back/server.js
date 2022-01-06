@@ -28,9 +28,22 @@ app.use(routes);
 
 app.use(cors()); //allow all origins
 
+const getTime = () => {
+  let time = new Date();
+  const hours = time.getHours();
+  const minutes = time.getMinutes();
+  time = hours + ':' + minutes;
+  return time;
+};
+
 io.on('connection', (socket) => {
   socket.on('join', ({ name, room }, callback) => {
-    const { error, user } = addUser({ id: socket.id, name, room });
+    const { error, user } = addUser({
+      id: socket.id,
+      name,
+      room,
+      time: getTime(),
+    });
     if (error) return callback(error);
 
     socket.join(user.room);
@@ -38,10 +51,12 @@ io.on('connection', (socket) => {
     socket.emit('message', {
       user: 'admin',
       text: `${user.name}, welcome to the room ${user.room}.`,
+      time: getTime(),
     });
     socket.broadcast.to(user.room).emit('message', {
       user: 'admin',
       text: `${user.name} has joined!`,
+      time: getTime(),
     });
 
     callback();
@@ -49,7 +64,12 @@ io.on('connection', (socket) => {
 
   socket.on('sendMessage', (message, callback) => {
     const user = getUser(socket.id);
-    io.to(user.room).emit('message', { user: user.name, text: message });
+
+    io.to(user.room).emit('message', {
+      user: user.name,
+      text: message,
+      time: getTime(),
+    });
     callback();
   });
 

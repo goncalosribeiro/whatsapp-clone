@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import './Chat.css';
@@ -9,13 +9,16 @@ import {
   MoreVert,
   Search,
   Send,
+  Forum,
 } from '@mui/icons-material';
-import ScrollToBottom from 'react-scroll-to-bottom'
 import io from 'socket.io-client';
 import { useSearchParams } from 'react-router-dom';
 
-
 let socket;
+
+const wraperstyle = {
+  overflowY: 'auto',
+};
 
 const Chat = ({ location }) => {
   const [name, setName] = useState('');
@@ -25,6 +28,16 @@ const Chat = ({ location }) => {
   const [message, setMessage] = useState('');
   const [searchParams] = useSearchParams();
   const ENDPOINT = 'http://localhost:5000';
+
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   useEffect(() => {
     socket = io(ENDPOINT);
@@ -61,13 +74,21 @@ const Chat = ({ location }) => {
     }
   };
   const trimmedName = name.trim().toLowerCase();
+
+  const getTime = () => {
+    const time = new Date();
+    const hours = time.getHours();
+    const minutes = time.getMinutes();
+
+    return hours + ':' + minutes;
+  };
   return (
     <div className="chat">
       <div className="chat__header">
-        <Avatar />
+        <Forum />
         <div className="chat__headerInfo">
+          <p>Room</p>
           <h2>{room}</h2>
-          <p>Last seen...</p>
         </div>
         <div className="chat__headerRight">
           <IconButton>
@@ -81,22 +102,29 @@ const Chat = ({ location }) => {
           </IconButton>
         </div>
       </div>
-      <ScrollToBottom>
-        <div className="chat__body">
+
+      <div className="chat__body">
         {messages &&
           messages.map((val, i) => {
             return (
-              <p key={i} className={trimmedName===val.user? "chat__message chat__sender" : "chat__message"}>
-                {trimmedName===val.user? null : <span className="chat__name">{val.user}</span>}
+              <p
+                key={i}
+                className={
+                  trimmedName === val.user
+                    ? 'chat__message chat__sender'
+                    : 'chat__message'
+                }
+              >
+                {trimmedName === val.user ? null : (
+                  <span className="chat__name">{val.user}</span>
+                )}
                 {val.text}
-                <span className="chat__timestamp">
-                  {new Date().toUTCString()}
-                </span>
+                <span className="chat__timestamp">{val.time}</span>
               </p>
             );
           })}
+        <div ref={messagesEndRef} />
       </div>
-      </ScrollToBottom>
       <div className="chat__footer">
         <InsertEmoticon />
         <form>

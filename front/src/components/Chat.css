@@ -13,6 +13,12 @@
   padding: 20px;
 }
 
+.chat__header > .MuiSvgIcon-root {
+  margin: 10px;
+  font-size: 40px;
+  color: gray;
+}
+
 .chat__headerInfo {
   flex: 1;
   padding-left: 20px;
@@ -34,6 +40,7 @@
   background-repeat: repeat;
   padding: 30px;
   overflow: auto;
+  height: 100%;
 }
 
 .chat__message {
@@ -62,10 +69,11 @@
 }
 
 .chat__name {
-  position: absolute;
-  top: -15px;
+  display: block;
+  position: relative; 
   font-weight: 800;
   font-size: x-small;
+  margin-bottom: 5px;
 }
 
 .chat__footer {
@@ -86,6 +94,7 @@
   border-radius: 30px;
   padding: 10px;
   border: none;
+  outline: none;
 }
 
 .chat__footer > form > button {
