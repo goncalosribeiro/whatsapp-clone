@@ -54,6 +54,7 @@
 }
 
 .chat__name {
+  display: block;
   font-size: 13px;
   color: forestgreen;
 }

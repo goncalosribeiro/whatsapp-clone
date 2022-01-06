@@ -58,6 +58,10 @@ io.on('connection', (socket) => {
       text: `${user.name} has joined!`,
       time: getTime(),
     });
+    io.to(user.room).emit('roomData', {
+      room: user.room,
+      users: getUsersInRoom(user.room),
+    });
 
     callback();
   });

@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import IconButton from '@mui/material/IconButton';
-import Avatar from '@mui/material/Avatar';
 import './Chat.css';
 import {
   AttachFile,
@@ -13,20 +12,18 @@ import {
 } from '@mui/icons-material';
 import io from 'socket.io-client';
 import { useSearchParams } from 'react-router-dom';
+import { Context } from '../store/store';
 
 let socket;
 
-const wraperstyle = {
-  overflowY: 'auto',
-};
-
-const Chat = ({ location }) => {
+const Chat = () => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
-  const [users, setUsers] = useState('');
+  const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
   const [searchParams] = useSearchParams();
+  const [state, dispatch] = useContext(Context);
   const ENDPOINT = 'http://localhost:5000';
 
   const messagesEndRef = useRef(null);
@@ -61,7 +58,7 @@ const Chat = ({ location }) => {
     });
 
     socket.on('roomData', ({ users }) => {
-      setUsers(users);
+      dispatch({ type: 'USERS', payload: users });
     });
   }, []);
 
@@ -73,6 +70,7 @@ const Chat = ({ location }) => {
       });
     }
   };
+
   const trimmedName = name.trim().toLowerCase();
 
   const getTime = () => {
@@ -82,6 +80,7 @@ const Chat = ({ location }) => {
 
     return hours + ':' + minutes;
   };
+
   return (
     <div className="chat">
       <div className="chat__header">
@@ -116,7 +115,11 @@ const Chat = ({ location }) => {
                 }
               >
                 {trimmedName === val.user ? null : (
-                  <span className="chat__name">{val.user}</span>
+                  <span className="chat__name">
+                    {val.user.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+                      letter.toUpperCase()
+                    )}
+                  </span>
                 )}
                 {val.text}
                 <span className="chat__timestamp">{val.time}</span>
