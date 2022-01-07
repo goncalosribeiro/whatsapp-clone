@@ -1,0 +1,49 @@
+.app__login {
+    display: flex;
+    flex-direction: column;
+    background-color: #ededed;
+    /* margin-top: -50px; */
+    height: 80vh;
+    width: 50vw;
+    box-shadow: -1px 4px 20px -6px rgba(0,0,0,0.75);
+    padding: 25px;
+  }
+
+  .app__login > h2 {
+    margin: 15px 0 35px;
+  }
+
+  .app__login > form {
+    margin: 35px 0 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .app__login > form > input {
+    flex: 1;
+    border-radius: 30px;
+    padding: 10px;
+    border: none;
+    outline: none;
+  }
+
+  .app__login  > form > a> button {
+    border: none;
+    border-radius: 15px;
+    padding: 10px 20px;
+    background-color: lightseagreen;
+  }
+
+  .app__background {
+      width: 100vw;
+      height: 100vh;
+    background-image: url('../images/bg-chat.png');
+    background-position: center;
+    background-repeat:repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

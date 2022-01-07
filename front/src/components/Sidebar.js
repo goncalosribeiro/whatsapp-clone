@@ -5,7 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import { Search, MoreVert, DonutLarge, Chat } from '@mui/icons-material';
 import SidebarChat from './SidebarChat';
 import { Context } from '../store/store';
-import { useResolvedPath } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   const [state] = useContext(Context);
@@ -46,6 +46,13 @@ const Sidebar = () => {
           );
         })}
       </div>
+      <Link to='/'>
+          <button
+            type="submit"
+          >
+            Exit Room
+          </button>
+        </Link>
     </div>
   );
 };

@@ -3,6 +3,8 @@ const cors = require('cors');
 const http = require('http');
 const socketio = require('socket.io');
 require('dotenv').config();
+const validator = require('validator')
+
 
 const { addUser, getUser, removeUser, getUsersInRoom } = require('./users');
 
@@ -12,7 +14,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: {
-    origin: '*',
+    origin: 'https://goncaloribeiro.dev/chat-clone',
   },
 });
 
@@ -40,8 +42,8 @@ io.on('connection', (socket) => {
   socket.on('join', ({ name, room }, callback) => {
     const { error, user } = addUser({
       id: socket.id,
-      name,
-      room,
+      name: validator.escape(name),
+      room: validator.escape(room),
       time: getTime(),
     });
     if (error) return callback(error);
@@ -71,7 +73,7 @@ io.on('connection', (socket) => {
 
     io.to(user.room).emit('message', {
       user: user.name,
-      text: message,
+      text: validator.escape(message),
       time: getTime(),
     });
     callback();

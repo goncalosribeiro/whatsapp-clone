@@ -24,7 +24,7 @@ const Chat = () => {
   const [message, setMessage] = useState('');
   const [searchParams] = useSearchParams();
   const [state, dispatch] = useContext(Context);
-  const ENDPOINT = 'http://localhost:5000';
+  const ENDPOINT = 'https://goncaloribeiro.dev/api/chat';
 
   const messagesEndRef = useRef(null);
 
