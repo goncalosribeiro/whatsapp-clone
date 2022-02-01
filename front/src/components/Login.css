@@ -1,8 +1,8 @@
 .app__login {
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
     background-color: #ededed;
-    /* margin-top: -50px; */
     height: 80vh;
     width: 50vw;
     box-shadow: -1px 4px 20px -6px rgba(0,0,0,0.75);
@@ -10,7 +10,7 @@
   }
 
   .app__login > h2 {
-    margin: 15px 0 35px;
+    margin: 15px;
   }
 
   .app__login > form {
@@ -25,9 +25,10 @@
   .app__login > form > input {
     flex: 1;
     border-radius: 30px;
-    padding: 10px;
+    padding: 12px 10px 10px 15px;
     border: none;
     outline: none;
+    width: 70%;
   }
 
   .app__login  > form > a> button {
@@ -46,4 +47,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media (max-width: 720px){
+  .app__login {
+    padding: 25px 0;
+    width: 95%;
+  }
+  
+}
+@media (max-width: 450px){
+  .app__login > form > input {
+    width: 95%;
+  }
+  
 }

@@ -24,7 +24,6 @@ const Chat = () => {
   const [message, setMessage] = useState('');
   const [searchParams] = useSearchParams();
   const [state, dispatch] = useContext(Context);
-  const ENDPOINT = 'https://goncaloribeiro.dev/api/chat';
 
   const messagesEndRef = useRef(null);
 
@@ -37,7 +36,7 @@ const Chat = () => {
   }, [messages]);
 
   useEffect(() => {
-    socket = io(ENDPOINT);
+    socket = io(process.env.REACT_APP_ENDPOINT);
     const name = searchParams.get('name');
     const room = searchParams.get('room');
     setName(name);
@@ -140,10 +139,9 @@ const Chat = () => {
             }
           />
           <button type="submit" onClick={(e) => sendMessage(e)}>
-            <Send />
+            {message ? <Send /> : <Mic />}
           </button>
         </form>
-        <Mic />
       </div>
     </div>
   );

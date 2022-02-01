@@ -3,8 +3,7 @@ const cors = require('cors');
 const http = require('http');
 const socketio = require('socket.io');
 require('dotenv').config();
-const validator = require('validator')
-
+const validator = require('validator');
 
 const { addUser, getUser, removeUser, getUsersInRoom } = require('./users');
 
@@ -14,21 +13,25 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: {
-    origin: 'https://goncaloribeiro.dev/chat-clone',
+    origin: 'https://www.goncaloribeiro.dev/chat-clone/*',
   },
 });
 
 const port = process.env.PORT || 5000;
 
 app.use(express.json({ extended: false }));
-app.use(routes);
+app.use('/api/chat-clone', routes);
 
 // const corsOptions = {
 //   origin: 'http://localhost:3000',
 //   methods: ['GET', 'POST'],
 // };
 
-app.use(cors()); //allow all origins
+app.use(
+  cors({
+    origin: 'https://www.goncaloribeiro.dev/chat-clone/*',
+  })
+); //allow all origins
 
 const getTime = () => {
   let time = new Date();

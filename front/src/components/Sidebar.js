@@ -46,13 +46,9 @@ const Sidebar = () => {
           );
         })}
       </div>
-      <Link to='/'>
-          <button
-            type="submit"
-          >
-            Exit Room
-          </button>
-        </Link>
+      <Link to="/chat-clone">
+        <button type="submit">Exit Room</button>
+      </Link>
     </div>
   );
 };
