@@ -8,7 +8,7 @@ export default function App() {
   return (
     <div className="app">
       <Routes>
-        <Route path="chat-clone/*" element={<Login />} />
+        <Route path="chat-clone/" element={<Login />} />
         <Route path="chat-clone/chatroom" element={<ChatRoom />} />
       </Routes>
     </div>

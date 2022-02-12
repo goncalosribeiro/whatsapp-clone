@@ -7,31 +7,24 @@ const validator = require('validator');
 
 const { addUser, getUser, removeUser, getUsersInRoom } = require('./users');
 
-const routes = require('./router');
-
 const app = express();
 const server = http.createServer(app);
+// const server = http.createServer();
 const io = socketio(server, {
   cors: {
-    origin: 'https://www.goncaloribeiro.dev/chat-clone/*',
+    origin: 'http://localhost:3000',
   },
 });
 
 const port = process.env.PORT || 5000;
 
 app.use(express.json({ extended: false }));
-app.use('/api/chat-clone', routes);
 
-// const corsOptions = {
-//   origin: 'http://localhost:3000',
-//   methods: ['GET', 'POST'],
-// };
-
-app.use(
-  cors({
-    origin: 'https://www.goncaloribeiro.dev/chat-clone/*',
-  })
-); //allow all origins
+// app.use(
+//   cors({
+//     origin: 'http://localhost:3000',
+//   })
+// ); //allow all origins
 
 const getTime = () => {
   let time = new Date();
@@ -99,5 +92,5 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => {
-  console.log(`Server running on localhost:${port}`);
+  console.log(`Server:${port}`);
 });

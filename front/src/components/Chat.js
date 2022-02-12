@@ -19,7 +19,6 @@ let socket;
 const Chat = () => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
-  const [users, setUsers] = useState([]);
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
   const [searchParams] = useSearchParams();
@@ -36,7 +35,8 @@ const Chat = () => {
   }, [messages]);
 
   useEffect(() => {
-    socket = io(process.env.REACT_APP_ENDPOINT);
+    socket = io(process.env.REACT_APP_SERVER_ENDPOINT);
+    console.log();
     const name = searchParams.get('name');
     const room = searchParams.get('room');
     setName(name);
